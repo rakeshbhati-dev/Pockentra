@@ -87,12 +87,12 @@ The Pockentra workflow is intentionally simple:
 
 ```bash
 # Clone the repository
-git clone https://github.com/your-username/pockentra.git
+git clone https://github.com/rakeshbhati-dev/pockentra.git
 cd pockentra
 
 # Install dependencies for both client and server
 cd server && npm install
-cd ../client && npm install
+cd client && npm install
 ```
 
 ### Environment Setup
@@ -103,7 +103,6 @@ Create a `.env` file in the `server/` directory:
 PORT=5000
 MONGO_URI=your_mongodb_connection_string
 JWT_SECRET=your_jwt_secret
-JWT_EXPIRES_IN=7d
 ```
 
 ### Run the App
@@ -120,26 +119,6 @@ Frontend runs on `http://localhost:5173` · Backend runs on `http://localhost:50
 
 ---
 
-## Project Structure
-
-```
-pockentra/
-├── client/               # React frontend
-│   └── src/
-│       ├── components/   # Reusable UI components
-│       ├── pages/        # Dashboard, Auth, Transactions
-│       ├── context/      # Global state management
-│       └── services/     # API integration layer
-│
-└── server/               # Express backend
-    ├── controllers/      # Business logic
-    ├── models/           # MongoDB schemas
-    ├── routes/           # API endpoints
-    └── middleware/       # Auth & error handling
-```
-
----
-
 ## Roadmap
 
 Future improvements planned for Pockentra:
@@ -147,23 +126,17 @@ Future improvements planned for Pockentra:
 - [ ] Export transactions to CSV or PDF
 - [ ] Recurring transactions (subscriptions, salaries)
 - [ ] Monthly budget limits with overspend alerts
-- [ ] Dark mode
 - [ ] Multi-currency support
-- [ ] Google / GitHub OAuth login
+- [ ] Google OAuth login
 - [ ] Email summaries and spending reports
 
 ---
 
-## License
-
-This project is licensed under the [MIT License](LICENSE).
-
----
 
 <div align="center">
 
-Designed and built by **[Your Name](https://github.com/your-username)**
+Designed and built by **[Rakesh Bhati](https://github.com/rakeshbhati-dev)**
 
-[GitHub](https://github.com/your-username) · [LinkedIn](https://linkedin.com/in/your-linkedin) · [Portfolio](https://your-portfolio.com)
+[GitHub](https://github.com/rakeshbhati-dev) · [LinkedIn](https://linkedin.com/in/rakesh-bhati) · [Portfolio](https://rakeshbhati.netlify.app/)
 
 </div>
