@@ -1,5 +1,6 @@
 const Category = require('../models/category.model');
 const User = require('../models/user.model');
+const Transaction = require('../models/transaction.model');
 
 const createCategory = async (req, res) => {
     try {
@@ -47,8 +48,13 @@ const getAllCategory = async (req, res) => {
 const deleteParticularCategory = async (req, res) => {
     try {
         const { userId } = req.user;
-        const { categoryId } = req.params
-        const response = await Category.findOneAndDelete({ userId: userId, _id: categoryId })
+        const { id } = req.params
+
+        const transactionExist= await Transaction.findOne({categoryId:id});
+        if(transactionExist){
+            return res.status(400).json({message:"Cannot delete category."});
+        }
+        const response = await Category.findOneAndDelete({ userId: userId, _id: id })
         if (!response) {
             return res.status(404).json({ message: "No Category Found" });
         }
@@ -61,4 +67,4 @@ const deleteParticularCategory = async (req, res) => {
     }
 }
 
-module.exports = { createCategory, getAllCategory }
+module.exports = { createCategory, getAllCategory, deleteParticularCategory }
