@@ -1,8 +1,13 @@
+import { Route, Routes } from "react-router-dom"
+import Register from "./pages/Register"
+
 function App(){
   return(
-    <>
-    <h1 className="text-3xl font-semibold text-center">Pockentra</h1>
-    </>
+    <div className="bg-[#272c36] min-h-screen" >
+      <Routes>
+        <Route path='/register' element={<Register />}></Route>
+      </Routes>
+    </div>
   )
 }
 
