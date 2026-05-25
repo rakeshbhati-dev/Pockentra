@@ -2,6 +2,8 @@ import logo from '../assets/logo.png'
 import dashboardBackground from '../assets/dashboard-bg.png'
 import Input from '../components/Input'
 import { useState } from 'react'
+import toast from 'react-hot-toast'
+import { login } from '../services/auth.service'
 
 function Login() {
     const [form, setForm] = useState({
@@ -16,19 +18,42 @@ function Login() {
 
     const validate = () => {
         const newErrors = {}
-        if (!form.email) newErrors.email = 'Email is required'
+
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+        if (!form.email.trim()) {
+            newErrors.email = 'Email is required'
+        } else if (!emailRegex.test(form.email)) {
+            newErrors.email = 'Enter a valid email address'
+        }
+
         if (!form.password) newErrors.password = 'Password is required'
         return newErrors
     }
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault()
         const newErrors = validate()
         if (Object.keys(newErrors).length > 0) {
             setErrors(newErrors)
         } else {
             setErrors({})
-            console.log('Login submitted:', form)
+            try {
+                const response=await login(form)
+                if(response){
+                    toast.success(response.message);
+                    console.log(response);
+                    localStorage.setItem('token',response.token);
+                }
+            } catch (error) {
+                if(error.status===401){
+                    toast.error('Invalid credentials');
+                }
+                else{
+                    toast.error('Something went wrong');
+                    console.log(error);
+                }
+                
+            }
         }
     }
 

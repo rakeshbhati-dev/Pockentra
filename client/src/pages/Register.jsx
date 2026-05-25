@@ -2,6 +2,9 @@ import logo from '../assets/logo.png'
 import dashboardBackground from '../assets/dashboard-bg.png'
 import Input from '../components/Input'
 import { useState } from 'react'
+import { register } from '../services/auth.service'
+import { useNavigate } from 'react-router-dom'
+import toast from 'react-hot-toast'
 
 function Register() {
     const [form, setForm] = useState({
@@ -11,6 +14,7 @@ function Register() {
         password: ''
     })
     const [errors, setErrors] = useState({})
+    const navigation = useNavigate()
 
     const handleChange = (e) => {
         setForm({ ...form, [e.target.name]: e.target.value })
@@ -18,22 +22,76 @@ function Register() {
 
     const validate = () => {
         const newErrors = {}
-        if (!form.firstName) newErrors.firstName = 'First name is required'
-        if (!form.lastName) newErrors.lastName = 'Last name is required'
-        if (!form.email) newErrors.email = 'Email is required'
-        if (!form.password || form.password.length < 8)
-            newErrors.password = 'Password must be at least 8 characters'
+
+        // First Name
+        if (!form.firstName.trim()) {
+            newErrors.firstName = 'First name is required'
+        }
+
+        // Email
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+
+        if (!form.email.trim()) {
+            newErrors.email = 'Email is required'
+        } else if (!emailRegex.test(form.email)) {
+            newErrors.email = 'Enter a valid email address'
+        }
+
+        // Password
+        const password = form.password
+
+        if (!password) {
+            newErrors.password = 'Password is required'
+        } else {
+            const errors = []
+
+            if (!/[A-Z]/.test(password)) {
+                errors.push('One Uppercase letter')
+            }
+
+            if (!/[a-z]/.test(password)) {
+                errors.push('One lowercase letter')
+            }
+
+            if (!/\d/.test(password)) {
+                errors.push('One Number')
+            }
+
+            if (!/[@$!%*?&]/.test(password)) {
+                errors.push('One special symbol')
+            }
+
+            if (errors.length > 0) {
+                newErrors.password = `Password should contain:
+${errors.join('\n')}`
+            } else if (password.length < 8) {
+                newErrors.password = 'Password must contain 8 characters'
+            }
+        }
+
         return newErrors
     }
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault()
         const newErrors = validate()
         if (Object.keys(newErrors).length > 0) {
             setErrors(newErrors)
         } else {
-            setErrors({})
-            console.log('Form submitted:', form)
+            setErrors({});
+            try {
+                const response = await register(form);
+                console.log(response);
+                if (response.data) {
+                    toast.success(response.message)
+                    navigation('/login')
+                }
+            } catch (error) {
+                toast.error('Something went wrong')
+                console.log(error);
+
+            }
+
         }
     }
 
