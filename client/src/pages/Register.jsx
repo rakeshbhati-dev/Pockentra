@@ -3,7 +3,7 @@ import dashboardBackground from '../assets/dashboard-bg.png'
 import Input from '../components/Input'
 import { useState } from 'react'
 import { register } from '../services/auth.service'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import toast from 'react-hot-toast'
 
 function Register() {
@@ -169,7 +169,8 @@ ${errors.join('\n')}`
 
                 <p className="text-center text-gray-500 text-xs mt-6">
                     Already have an account?{' '}
-                    <a href="/login" className="text-primary hover:underline">Sign in</a>
+                    <Link to='/login' className="text-primary hover:underline">
+                    Sign in</Link>
                 </p>
             </div>
         </div>

@@ -4,6 +4,8 @@ import Input from '../components/Input'
 import { useState } from 'react'
 import toast from 'react-hot-toast'
 import { login } from '../services/auth.service'
+import { Link, useNavigate } from 'react-router-dom'
+import { useUser } from '../contexts/UserContextProvider'
 
 function Login() {
     const [form, setForm] = useState({
@@ -11,6 +13,8 @@ function Login() {
         password: ''
     })
     const [errors, setErrors] = useState({})
+    const navigate=useNavigate()
+    const {setToken}=useUser()
 
     const handleChange = (e) => {
         setForm({ ...form, [e.target.name]: e.target.value })
@@ -41,8 +45,9 @@ function Login() {
                 const response=await login(form)
                 if(response){
                     toast.success(response.message);
-                    console.log(response);
                     localStorage.setItem('token',response.token);
+                    setToken(response.token)
+                    navigate('/')
                 }
             } catch (error) {
                 if(error.status===401){
@@ -118,7 +123,8 @@ function Login() {
 
                 <p className="text-center text-gray-500 text-xs mt-6">
                     Don't have an account?{' '}
-                    <a href="/register" className="text-primary hover:underline">Create one</a>
+                    <Link to='/register' className="text-primary hover:underline">
+                    Create one</Link>
                 </p>
             </div>
         </div>
