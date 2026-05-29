@@ -1,4 +1,4 @@
-import { createContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import { getUser } from "../services/user.service";
 
 const UserContext = createContext();
@@ -12,6 +12,7 @@ export function UserContextProvider({ children }) {
         try {
             const response = await getUser(token)
             setUser(response.data)
+            console.log(response.data)
         } catch (error) {
             console.log(error)
         }
@@ -30,7 +31,7 @@ export function UserContextProvider({ children }) {
     }, [token])
 
     return (
-        <UserContext.Provider value={token, setToken, setUser, user, loading} >
+        <UserContext.Provider value={{token, setToken, setUser, user, loading}} >
             {children}
         </UserContext.Provider>
     )
