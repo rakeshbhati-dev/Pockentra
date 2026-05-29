@@ -6,8 +6,11 @@ function Header({ firstName }) {
             <div>
                 <img src={logo} alt="" className='w-48' />
             </div>
-            <div className='w-10 h-10 rounded-full bg-primary flex items-center justify-center font-semibold text-[#fff] cursor-pointer text-xl'>
-                {firstName[0].toUpperCase()}
+            <div className='flex gap-4'>
+                <button className='bg-primary px-2 rounded-md font-semibold cursor-pointer'>+ Add Transaction</button>
+                <div className='w-10 h-10 rounded-full bg-primary flex items-center justify-center font-semibold text-[#fff] cursor-pointer text-xl'>
+                {firstName?.[0].toUpperCase()}
+            </div>
             </div>
         </div>
     )
