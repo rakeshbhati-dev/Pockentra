@@ -4,6 +4,7 @@ import Login from "./pages/Login"
 import { Toaster } from "react-hot-toast"
 import Dashboard from "./pages/Dashboard"
 import ProtectedRoute from "./routes/ProtectedRoute"
+import Transaction from "./pages/Transaction"
 
 function App() {
   return (
@@ -45,6 +46,15 @@ function App() {
             </ProtectedRoute>
           }
         />
+        <Route
+          path="/transaction"
+          element={
+            <ProtectedRoute>
+              <Transaction />
+            </ProtectedRoute>
+          }
+        />
+
       </Routes>
     </div>
   )
