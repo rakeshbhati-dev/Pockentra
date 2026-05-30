@@ -6,8 +6,7 @@ import { useUser } from "../contexts/UserContextProvider"
 import { useEffect, useState } from "react";
 import { getExpenseStats, getStats } from "../services/dashboard.service";
 import ExpenseChart from "../components/ExpenseChart";
-import { TransactionTable } from "../components/TransactionTable";
-import Table from "../components/Table";
+import TransactionTable  from "../components/TransactionTable";
 import { Link } from "react-router-dom";
 
 function Dashboard() {
@@ -76,7 +75,7 @@ function Dashboard() {
                 </Link>
                 </div>
 
-                <Table
+                <TransactionTable
   transactions={monthStats?.recentTransactions ?? []}
 />
             </Section>
