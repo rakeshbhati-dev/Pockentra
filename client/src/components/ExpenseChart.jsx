@@ -47,7 +47,7 @@ function ExpenseChart({ breakdown = [] }) {
   // Empty state
   if (!chartData.length) {
     return (
-      <div className="bg-[#11141d] rounded-2xl p-5 w-full h-[350px] flex flex-col">
+      <div className="bg-[#11141d] rounded-2xl p-5 w-full  flex flex-col">
         <h2 className="text-white text-xl font-semibold mb-1">
           Total Expense
         </h2>
@@ -76,12 +76,12 @@ function ExpenseChart({ breakdown = [] }) {
   }
 
   return (
-    <div className="bg-[#11141d] rounded-2xl p-5 w-full min-h-[350px]">
+    <div className="bg-[#11141d] rounded-2xl p-5 w-full min-h-[0px]">
       <h2 className="text-white text-xl font-semibold mb-1">
         Total Expense
       </h2>
 
-      <p className="text-slate-500 text-sm mb-6">
+      <p className="text-slate-500 text-sm ">
         Breakdown by category
       </p>
 
