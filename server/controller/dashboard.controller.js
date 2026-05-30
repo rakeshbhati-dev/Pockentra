@@ -20,8 +20,11 @@ const getStats = async (req, res) => {
         })
 
         const balance = totalIncome - totalExpense;
+        const recentTransactions = await Transaction.find({ userId })
+            .sort({ date: -1 }) // newest first
+            .limit(5);
         const response = {
-            totalIncome, totalExpense, balance
+            totalIncome, totalExpense, balance,recentTransactions
         }
 
         return res.status(200).json({ message: "Dashboard stats fetch successfully", data: response })
@@ -131,7 +134,7 @@ const getExpenseBreakdown = async (
     } catch (error) {
 
         return res.status(500).json({
-            message:"Something went wrong",
+            message: "Something went wrong",
             error: error.message
         })
     }
