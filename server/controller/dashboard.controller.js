@@ -20,7 +20,7 @@ const getStats = async (req, res) => {
         })
 
         const balance = totalIncome - totalExpense;
-        const recentTransactions = await Transaction.find({ userId })
+        const recentTransactions = await Transaction.find({ userId }).populate('categoryId','title color icon')
             .sort({ date: -1 }) // newest first
             .limit(5);
         const response = {
