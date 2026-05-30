@@ -1,4 +1,4 @@
-import { TrendingDown, TrendingUp, Wallet } from "lucide-react";
+import { ChevronRight, MoveRight, TrendingDown, TrendingUp, Wallet } from "lucide-react";
 import Card from "../components/Card";
 import Header from "../components/Header";
 import Section from "../components/Section";
@@ -6,13 +6,17 @@ import { useUser } from "../contexts/UserContextProvider"
 import { useEffect, useState } from "react";
 import { getExpenseStats, getStats } from "../services/dashboard.service";
 import ExpenseChart from "../components/ExpenseChart";
+import { TransactionTable } from "../components/TransactionTable";
+import Table from "../components/Table";
+import { Link } from "react-router-dom";
 
 function Dashboard() {
     const { user, loading,token } = useUser();
     const [monthStats,setMonthStats]=useState({
         totalIncome:0,
         totalExpense:0,
-        balance:0
+        balance:0,
+        recentTransaction:[]
     })
 
     const [expenseBreakdown,setExpenseBreakdown]=useState([]);
@@ -20,6 +24,7 @@ function Dashboard() {
     const getMonthStats=async () => {
         try {
            const response= await getStats(token);
+           console.log(response.data)
            setMonthStats(response.data)
         } catch (error) {
             console.log(error)
@@ -61,6 +66,19 @@ function Dashboard() {
 
             <Section>
                 <ExpenseChart breakdown={expenseBreakdown} />
+            </Section>
+
+            <Section>
+                <div className="flex justify-between">
+                <h3 className="text-gray-400 mb-2">Recent Transactions</h3>
+                <Link to='/transaction' className="text-primary mb-2 border px-4 py-1 border-solid border-primary hover:bg-primary hover:text-black cursor-pointer flex rounded-md items-center">View All
+                    <ChevronRight />
+                </Link>
+                </div>
+
+                <Table
+  transactions={monthStats?.recentTransactions ?? []}
+/>
             </Section>
         </>
     )
