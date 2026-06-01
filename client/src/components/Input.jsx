@@ -7,7 +7,8 @@ function Input({
     type = 'text',
     inputStyle,
     divStyle,
-    errorMessage
+    errorMessage,
+    ...rest
 }) {
     return (
         <div className={`flex-1 ${divStyle || ''}`}>
@@ -19,6 +20,7 @@ function Input({
                 onChange={onChange}
                 placeholder={placeholder}
                 className={`bg-slate-700 rounded-md focus:outline-none focus:ring-1 focus:ring-primary py-2 px-3 w-full text-white placeholder-gray-500 ${inputStyle || ''}`}
+                {...rest}
             />
             {errorMessage && <p className="text-red-500 text-xs pl-1 mt-1">{errorMessage}</p>}
         </div>
