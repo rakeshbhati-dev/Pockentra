@@ -23,4 +23,8 @@ export const updateTransaction=async (token,id,data) => {
     const response=await axios.put(`${api}/${id}`,data,{ headers: { Authorization: `Bearer ${token}` } });
     return response.data
 }
+export const deleteTransaction=async (token,id) => {
+    const response=await axios.delete(`${api}/${id}`,{ headers: { Authorization: `Bearer ${token}` } });
+    return response.data
+}
  
