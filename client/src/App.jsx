@@ -4,8 +4,9 @@ import Login from "./pages/Login"
 import { Toaster } from "react-hot-toast"
 import Dashboard from "./pages/Dashboard"
 import ProtectedRoute from "./routes/ProtectedRoute"
-import Transaction from "./pages/Transaction"
+import TransactionList from "./pages/TransactionList"
 import AddTransaction from "./pages/AddTransaction"
+import TransactionDetail from "./pages/TransactionDetail"
 
 function App() {
   return (
@@ -51,7 +52,7 @@ function App() {
           path="/transaction"
           element={
             <ProtectedRoute>
-              <Transaction />
+              <TransactionList />
             </ProtectedRoute>
           }
         />
@@ -60,6 +61,22 @@ function App() {
           element={
             <ProtectedRoute>
               <AddTransaction />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/transaction/update/:id"
+          element={
+            <ProtectedRoute>
+              <AddTransaction />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/transaction/:id"
+          element={
+            <ProtectedRoute>
+              <TransactionDetail />
             </ProtectedRoute>
           }
         />
