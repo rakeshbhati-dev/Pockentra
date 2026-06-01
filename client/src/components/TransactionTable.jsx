@@ -1,43 +1,14 @@
 import { useState } from "react";
 import {
-  Film,
-  ShoppingCart,
-  Coffee,
-  Home,
-  Car,
-  Zap,
-  Heart,
-  Music,
-  Book,
-  Briefcase,
-  Globe,
-  Gift,
-  CreditCard,
-  ArrowUpDown,
-  ArrowUp,
-  ArrowDown,
-  Filter,
-  X,
-  ChevronDown,
-  ChevronUp,
-  SlidersHorizontal,
+  Film, ShoppingCart, Coffee, Home, Car, Zap, Heart,
+  Music, Book, Briefcase, Globe, Gift, CreditCard,
+  ArrowUpDown, ArrowUp, ArrowDown, Filter, X,
+  ChevronDown, ChevronUp, SlidersHorizontal,
 } from "lucide-react";
 
-// ─── Icon resolver ────────────────────────────────────────────────────────────
 const ICON_MAP = {
-  Film,
-  ShoppingCart,
-  Coffee,
-  Home,
-  Car,
-  Zap,
-  Heart,
-  Music,
-  Book,
-  Briefcase,
-  Globe,
-  Gift,
-  CreditCard,
+  Film, ShoppingCart, Coffee, Home, Car, Zap, Heart,
+  Music, Book, Briefcase, Globe, Gift, CreditCard,
 };
 
 function CategoryIcon({ iconName, color, size = 14 }) {
@@ -45,93 +16,22 @@ function CategoryIcon({ iconName, color, size = 14 }) {
   return <Icon size={size} color={color} />;
 }
 
-// ─── Sample data (remove when wiring to real API) ────────────────────────────
-const SAMPLE_DATA = [
-  {
-    _id: "6a100a4a8e68fac1c5ab00d5",
-    userId: "6a1008b16f277bb904c122fc",
-    title: "Movie",
-    categoryId: { _id: "cat1", title: "Entertainment", icon: "Film", color: "#f59e0b" },
-    note: "Watch spiderman brand new day",
-    amount: 250,
-    date: "2026-05-22T07:48:26.595Z",
-    type: "expense",
-  },
-  {
-    _id: "6a100a4a8e68fac1c5ab00d6",
-    userId: "6a1008b16f277bb904c122fc",
-    title: "Salary",
-    categoryId: { _id: "cat2", title: "Income", icon: "Briefcase", color: "#22c55e" },
-    note: "Monthly salary",
-    amount: 85000,
-    date: "2026-05-01T09:00:00.000Z",
-    type: "income",
-  },
-  {
-    _id: "6a100a4a8e68fac1c5ab00d7",
-    userId: "6a1008b16f277bb904c122fc",
-    title: "Groceries",
-    categoryId: { _id: "cat3", title: "Food", icon: "ShoppingCart", color: "#3b82f6" },
-    note: "Weekly grocery run",
-    amount: 1340,
-    date: "2026-05-18T14:20:00.000Z",
-    type: "expense",
-  },
-  {
-    _id: "6a100a4a8e68fac1c5ab00d8",
-    userId: "6a1008b16f277bb904c122fc",
-    title: "Electricity Bill",
-    categoryId: { _id: "cat4", title: "Utilities", icon: "Zap", color: "#a855f7" },
-    note: "May electricity bill",
-    amount: 2100,
-    date: "2026-05-10T11:00:00.000Z",
-    type: "expense",
-  },
-  {
-    _id: "6a100a4a8e68fac1c5ab00d9",
-    userId: "6a1008b16f277bb904c122fc",
-    title: "Freelance Work",
-    categoryId: { _id: "cat5", title: "Income", icon: "Globe", color: "#22c55e" },
-    note: "Website project payment",
-    amount: 15000,
-    date: "2026-05-14T16:45:00.000Z",
-    type: "income",
-  },
-  {
-    _id: "6a100a4a8e68fac1c5ab00da",
-    userId: "6a1008b16f277bb904c122fc",
-    title: "Coffee Subscription",
-    categoryId: { _id: "cat6", title: "Food", icon: "Coffee", color: "#3b82f6" },
-    note: "Monthly coffee beans",
-    amount: 890,
-    date: "2026-05-05T08:30:00.000Z",
-    type: "expense",
-  },
-];
-
-// ─── Helpers ──────────────────────────────────────────────────────────────────
 function formatDate(iso) {
   return new Intl.DateTimeFormat("en-IN", {
-    day: "2-digit",
-    month: "short",
-    year: "numeric",
+    day: "2-digit", month: "short", year: "numeric",
   }).format(new Date(iso));
 }
 
 function formatAmount(amount, type) {
   const formatted = new Intl.NumberFormat("en-IN", {
-    style: "currency",
-    currency: "INR",
-    maximumFractionDigits: 0,
+    style: "currency", currency: "INR", maximumFractionDigits: 0,
   }).format(amount);
   return { formatted, isIncome: type === "income" };
 }
 
-// ─── Sort button ──────────────────────────────────────────────────────────────
 function SortButton({ label, field, currentSort, onSort }) {
   const active = currentSort?.field === field;
   const dir = active ? currentSort.dir : null;
-
   return (
     <button
       onClick={() => {
@@ -146,19 +46,12 @@ function SortButton({ label, field, currentSort, onSort }) {
     >
       {label}
       <span className="opacity-70">
-        {dir === "asc" ? (
-          <ArrowUp size={12} />
-        ) : dir === "desc" ? (
-          <ArrowDown size={12} />
-        ) : (
-          <ArrowUpDown size={12} />
-        )}
+        {dir === "asc" ? <ArrowUp size={12} /> : dir === "desc" ? <ArrowDown size={12} /> : <ArrowUpDown size={12} />}
       </span>
     </button>
   );
 }
 
-// ─── Category filter pill ─────────────────────────────────────────────────────
 function CategoryPill({ category, selected, onToggle }) {
   return (
     <button
@@ -169,27 +62,27 @@ function CategoryPill({ category, selected, onToggle }) {
           : "border-white/10 bg-white/5 text-white/50 hover:text-white/80 hover:bg-white/10"
       }`}
     >
-      <span
-        className="w-2 h-2 rounded-full flex-shrink-0"
-        style={{ backgroundColor: category.color }}
-      />
+      <span className="w-2 h-2 rounded-full flex-shrink-0" style={{ backgroundColor: category.color }} />
       {category.title}
       {selected && <X size={10} className="ml-0.5 opacity-70" />}
     </button>
   );
 }
 
-// ─── Main component ───────────────────────────────────────────────────────────
 /**
  * TransactionTable
  *
  * Props:
- *   transactions  – array from backend (defaults to sample data)
- *   showControls  – bool (default false); shows sort + filter UI
- *   onSortChange  – (sort: { field, dir } | null) => void
- *   onFilterChange– (categoryIds: string[]) => void
- *   isLoading     – bool
- *   emptyMessage  – string
+ *   transactions      – array from backend
+ *   showControls      – bool; shows sort + filter UI
+ *   onSortChange      – (sort: { field, dir } | null) => void
+ *   onFilterChange    – (categoryIds: string[]) => void
+ *   isLoading         – bool
+ *   emptyMessage      – string
+ *   categories        – array
+ *   headerSlot        – ReactNode
+ *   selectedTxId      – string | null  (controlled from parent)
+ *   onRowClick        – (tx) => void   (called when a row is clicked)
  */
 export default function TransactionTable({
   transactions = [],
@@ -198,14 +91,14 @@ export default function TransactionTable({
   onFilterChange,
   isLoading = false,
   emptyMessage = "No transactions found.",
-  categories=[],
-  headerSlot
+  categories = [],
+  headerSlot,
+  selectedTxId = null,
+  onRowClick,
 }) {
   const [sort, setSort] = useState(null);
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [filterOpen, setFilterOpen] = useState(false);
-
-  // Derive unique categories from data
 
   const handleSort = (newSort) => {
     setSort(newSort);
@@ -236,19 +129,15 @@ export default function TransactionTable({
           <div className="flex items-center gap-2">{headerSlot}</div>
         </div>
       )}
-      {/* ── Controls bar ── */}
+
       {showControls && (
         <div className="px-5 pt-5 pb-3 space-y-3">
-          {/* Sort + filter toggle row */}
           <div className="flex items-center justify-between gap-3 flex-wrap">
             <div className="flex items-center gap-2">
-              <span className="text-white/30 text-xs tracking-widest uppercase font-semibold">
-                Sort
-              </span>
+              <span className="text-white/30 text-xs tracking-widest uppercase font-semibold">Sort</span>
               <SortButton label="Amount" field="amount" currentSort={sort} onSort={handleSort} />
               <SortButton label="Date" field="date" currentSort={sort} onSort={handleSort} />
             </div>
-
             <button
               onClick={() => setFilterOpen((v) => !v)}
               className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all duration-200 border ${
@@ -268,12 +157,9 @@ export default function TransactionTable({
             </button>
           </div>
 
-          {/* Category filter pills */}
           {filterOpen && (
             <div className="flex items-center gap-2 flex-wrap pt-1 pb-1 border-t border-white/5">
-              <span className="text-white/30 text-xs tracking-widest uppercase font-semibold mr-1">
-                Category
-              </span>
+              <span className="text-white/30 text-xs tracking-widest uppercase font-semibold mr-1">Category</span>
               {categories.map((cat) => (
                 <CategoryPill
                   key={cat._id}
@@ -293,7 +179,6 @@ export default function TransactionTable({
             </div>
           )}
 
-          {/* Active filter summary */}
           {selectedCategories.length > 0 && !filterOpen && (
             <div className="flex items-center gap-1.5 flex-wrap">
               {selectedCategories.map((id) => {
@@ -304,10 +189,7 @@ export default function TransactionTable({
                     key={id}
                     className="flex items-center gap-1 px-2 py-0.5 rounded-full text-xs bg-white/8 text-white/60 border border-white/10"
                   >
-                    <span
-                      className="w-1.5 h-1.5 rounded-full"
-                      style={{ backgroundColor: cat.color }}
-                    />
+                    <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: cat.color }} />
                     {cat.title}
                   </span>
                 );
@@ -319,7 +201,6 @@ export default function TransactionTable({
         </div>
       )}
 
-      {/* ── Table ── */}
       <div className="overflow-x-auto">
         <table className="w-full text-sm">
           <thead>
@@ -336,10 +217,8 @@ export default function TransactionTable({
               ))}
             </tr>
           </thead>
-
           <tbody>
             {isLoading ? (
-              // Skeleton rows
               Array.from({ length: 5 }).map((_, i) => (
                 <tr key={i} style={{ borderBottom: "1px solid rgba(255,255,255,0.04)" }}>
                   {[1, 2, 3, 4].map((col) => (
@@ -366,36 +245,34 @@ export default function TransactionTable({
               transactions.map((tx, idx) => {
                 const { formatted, isIncome } = formatAmount(tx.amount, tx.type);
                 const isLast = idx === transactions.length - 1;
+                const isSelected = selectedTxId === tx._id;
 
                 return (
                   <tr
                     key={tx._id}
-                    className="group transition-colors duration-150"
+                    onClick={() => onRowClick?.(tx)}
+                    className={`group transition-colors duration-150 cursor-pointer ${
+                      isSelected ? "bg-indigo-500/10" : ""
+                    }`}
                     style={{
                       borderBottom: isLast ? "none" : "1px solid rgba(255,255,255,0.04)",
+                      borderLeft: isSelected ? "2px solid rgba(99,102,241,0.6)" : "2px solid transparent",
                     }}
                     onMouseEnter={(e) => {
-                      e.currentTarget.style.backgroundColor = "rgba(255,255,255,0.025)";
+                      if (!isSelected) e.currentTarget.style.backgroundColor = "rgba(255,255,255,0.025)";
                     }}
                     onMouseLeave={(e) => {
-                      e.currentTarget.style.backgroundColor = "transparent";
+                      if (!isSelected) e.currentTarget.style.backgroundColor = "transparent";
                     }}
                   >
-                    {/* Title */}
                     <td className="py-4 px-5">
                       <div className="flex flex-col gap-0.5">
-                        <span className="font-medium text-white/90 leading-tight">
-                          {tx.title}
-                        </span>
+                        <span className="font-medium text-white/90 leading-tight">{tx.title}</span>
                         {tx.note && (
-                          <span className="text-xs text-white/30 truncate max-w-[200px]">
-                            {tx.note}
-                          </span>
+                          <span className="text-xs text-white/30 truncate max-w-[200px]">{tx.note}</span>
                         )}
                       </div>
                     </td>
-
-                    {/* Category */}
                     <td className="py-4 px-5">
                       <span
                         className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-medium"
@@ -405,31 +282,16 @@ export default function TransactionTable({
                           border: `1px solid ${tx.categoryId.color}30`,
                         }}
                       >
-                        <CategoryIcon
-                          iconName={tx.categoryId.icon}
-                          color={tx.categoryId.color}
-                          size={12}
-                        />
+                        <CategoryIcon iconName={tx.categoryId.icon} color={tx.categoryId.color} size={12} />
                         {tx.categoryId.title}
                       </span>
                     </td>
-
-                    {/* Date */}
                     <td className="py-4 px-5">
-                      <span className="text-white/50 tabular-nums text-xs">
-                        {formatDate(tx.date)}
-                      </span>
+                      <span className="text-white/50 tabular-nums text-xs">{formatDate(tx.date)}</span>
                     </td>
-
-                    {/* Amount */}
                     <td className="py-4 px-5 text-right">
-                      <span
-                        className={`font-semibold tabular-nums ${
-                          isIncome ? "text-emerald-400" : "text-red-400"
-                        }`}
-                      >
-                        {isIncome ? "+" : "-"}
-                        {formatted}
+                      <span className={`font-semibold tabular-nums ${isIncome ? "text-emerald-400" : "text-red-400"}`}>
+                        {isIncome ? "+" : "-"}{formatted}
                       </span>
                     </td>
                   </tr>
