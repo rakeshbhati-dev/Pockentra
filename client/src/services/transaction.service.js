@@ -9,3 +9,18 @@ export const getAllTransaction = async (token, queryString = "") => {
     );
     return response.data;
 };
+
+export const addTransaction=async (token,data) => {
+    const response=await axios.post(`${api}/`,data,{headers:{Authorization:`Bearer ${token}`}})
+    return response.data;
+}
+
+export const getTransactionById=async (token,id) => {
+    const response=await axios.get(`${api}/${id}`,{ headers: { Authorization: `Bearer ${token}` } });
+    return response.data
+}
+export const updateTransaction=async (token,id,data) => {
+    const response=await axios.put(`${api}/${id}`,data,{ headers: { Authorization: `Bearer ${token}` } });
+    return response.data
+}
+ 
