@@ -6,6 +6,8 @@ import Section from "../components/Section";
 import { getAllCategories } from "../services/category.service";
 import TransactionTable from "../components/TransactionTable";
 import TransactionDrawer from "../components/TransactionDrawer";
+import DeleteTransactionModal from "../components/DeleteTransactionModal";
+import { deleteTransaction } from "../services/transaction.service";
 import { ChevronDown } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
@@ -31,10 +33,14 @@ function TransactionList() {
 
   const [selectedMonth, setSelectedMonth] = useState(currentMonth);
   const [selectedYear, setSelectedYear] = useState(currentYear);
+  const navigate=useNavigate()
 
   // Drawer state
   const [selectedTx, setSelectedTx] = useState(null);
-  const navigate=useNavigate()
+
+  // Delete modal state
+  const [txToDelete, setTxToDelete] = useState(null);
+  const [isDeleting, setIsDeleting] = useState(false);
 
   const [queryParams, setQueryParams] = useState({
     sortBy: "date",
@@ -118,12 +124,28 @@ function TransactionList() {
 
   const handleEdit = (tx) => {
     navigate(`/transaction/update/${tx._id}`);
-    console.log("Edit transaction:", tx._id);
   };
 
   const handleDelete = (tx) => {
-    // Call delete API, then refresh
-    console.log("Delete transaction:", tx._id);
+    setTxToDelete(tx);
+  };
+
+  const handleDeleteConfirm = async (tx) => {
+    try {
+      setIsDeleting(true);
+      await deleteTransaction(token, tx._id);
+      setTxToDelete(null);
+      setSelectedTx(null);
+      getTransactionList(queryParams);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsDeleting(false);
+    }
+  };
+
+  const handleDeleteClose = () => {
+    if (!isDeleting) setTxToDelete(null);
   };
 
   const selectClass =
@@ -208,6 +230,13 @@ function TransactionList() {
           </div>
         </div>
       </Section>
+
+      <DeleteTransactionModal
+        transaction={txToDelete}
+        isDeleting={isDeleting}
+        onConfirm={handleDeleteConfirm}
+        onClose={handleDeleteClose}
+      />
     </>
   );
 }
