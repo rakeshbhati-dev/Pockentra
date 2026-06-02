@@ -81,15 +81,18 @@ ${errors.join('\n')}`
             setErrors({});
             try {
                 const response = await register(form);
-                console.log(response);
                 if (response.data) {
                     toast.success(response.message)
                     navigation('/login')
                 }
             } catch (error) {
-                toast.error('Something went wrong')
-                console.log(error);
-
+                if (error.status === 409) {
+                    toast.error('Email already registered')
+                }
+                else {
+                    toast.error('Something went wrong')
+                    console.log(error);
+                }
             }
 
         }
@@ -172,7 +175,7 @@ ${errors.join('\n')}`
                 <p className="text-center text-gray-500 text-xs mt-6">
                     Already have an account?{' '}
                     <Link to='/login' className="text-primary hover:underline">
-                    Sign in</Link>
+                        Sign in</Link>
                 </p>
             </div>
         </div>
