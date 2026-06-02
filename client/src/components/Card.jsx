@@ -14,7 +14,7 @@ function Card({
         >
             <div>
                 <h3 className={`text-xl font-semibold ${color}`}>{title}</h3>
-                <p className={`font-semibold text-2xl font-mono ${color}`}>{formatAmount(amount)}</p>
+                <p className={`font-semibold text-2xl ${color}`}>{formatAmount(amount)}</p>
             </div>
             {Icon &&
                 <div
