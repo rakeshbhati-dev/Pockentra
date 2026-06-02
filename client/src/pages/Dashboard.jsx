@@ -23,7 +23,6 @@ function Dashboard() {
     const getMonthStats=async () => {
         try {
            const response= await getStats(token);
-           console.log(response.data)
            setMonthStats(response.data)
         } catch (error) {
             console.log(error)
@@ -33,7 +32,6 @@ function Dashboard() {
     const getChartStats=async () => {
         try {
             const response=await getExpenseStats(token)
-            console.log(response)
             setExpenseBreakdown(response.data.breakdown)
         } catch (error) {
             console.log(error)

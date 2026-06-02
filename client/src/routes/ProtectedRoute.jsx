@@ -7,7 +7,6 @@ function ProtectedRoute({children}){
         return <span className="text-white">Loading..</span>
     }
     if(token && !loading){
-        console.log(token)
         return (children)
     }
     else{
