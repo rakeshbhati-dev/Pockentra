@@ -3,6 +3,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { LogOut, Pencil } from "lucide-react";
 import logo from "../assets/logo.png";
 import { useUser } from "../contexts/UserContextProvider";
+import EditProfileModal from "./EditProfileModal";
+import { updateProfile } from "../services/user.service";
 
 function ProfileDropdown({ user, onClose, onEditProfile, onLogout }) {
   const ref = useRef(null);
@@ -67,8 +69,10 @@ function ProfileDropdown({ user, onClose, onEditProfile, onLogout }) {
 
 function Header({ showButton = true }) {
   const navigate = useNavigate();
-  const { user,setUser,token,setToken } = useUser();
+  const { user,token,setUser,setToken } = useUser();
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [editModalOpen, setEditModalOpen] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
   const profileRef = useRef(null);
 
   // Close when clicking outside the entire profile area (avatar + dropdown)
@@ -89,7 +93,20 @@ function Header({ showButton = true }) {
     return () => window.removeEventListener("keydown", handler);
   }, []);
 
-  const handleEditProfile = () => navigate("/profile/edit");
+  const handleEditProfile = () => setEditModalOpen(true);
+
+  const handleSaveProfile = async (data) => {
+    try {
+      setIsSaving(true);
+     const response= await updateProfile(token, data); 
+      setUser(response.data)
+      setEditModalOpen(false);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsSaving(false);
+    }
+  };
 
   const handleLogout = () => {
     localStorage.removeItem('token');
@@ -99,45 +116,54 @@ function Header({ showButton = true }) {
   };
 
   return (
-    <div className="flex px-4 py-3 justify-between items-center bg-[#1f242d]">
-      <Link to="/">
-        <img src={logo} alt="Logo" className="w-48" />
-      </Link>
+    <>
+      <div className="flex px-4 py-3 justify-between items-center bg-[#1f242d]">
+        <Link to="/">
+          <img src={logo} alt="Logo" className="w-48" />
+        </Link>
 
-      <div className="flex gap-4 items-center">
-        {showButton && (
-          <button
-            className="bg-primary p-2 rounded-md font-semibold cursor-pointer text-white"
-            onClick={() => navigate("/transaction/add")}
-          >
-            + Add Transaction
-          </button>
-        )}
-
-        {/* Wrapper captures both avatar + dropdown — outside clicks close the menu */}
-        <div className="relative" ref={profileRef}>
-          <button
-            onClick={() => setDropdownOpen((v) => !v)}
-            aria-label="Open profile menu"
-            aria-expanded={dropdownOpen}
-            className={`w-10 h-10 rounded-full bg-primary flex items-center justify-center font-semibold text-white text-xl cursor-pointer transition-all duration-150 ${
-              dropdownOpen ? "ring-2 ring-primary/50" : ""
-            }`}
-          >
-            {user?.firstName?.[0].toUpperCase()}
-          </button>
-
-          {dropdownOpen && (
-            <ProfileDropdown
-              user={user}
-              onClose={() => setDropdownOpen(false)}
-              onEditProfile={handleEditProfile}
-              onLogout={handleLogout}
-            />
+        <div className="flex gap-4 items-center">
+          {showButton && (
+            <button
+              className="bg-primary p-2 rounded-md font-semibold cursor-pointer text-white"
+              onClick={() => navigate("/transaction/add")}
+            >
+              + Add Transaction
+            </button>
           )}
+
+          <div className="relative" ref={profileRef}>
+            <button
+              onClick={() => setDropdownOpen((v) => !v)}
+              aria-label="Open profile menu"
+              aria-expanded={dropdownOpen}
+              className={`w-10 h-10 rounded-full bg-primary flex items-center justify-center font-semibold text-white text-xl cursor-pointer transition-all duration-150 ${
+                dropdownOpen ? "ring-2 ring-primary/50" : ""
+              }`}
+            >
+              {user?.firstName?.[0].toUpperCase()}
+            </button>
+
+            {dropdownOpen && (
+              <ProfileDropdown
+                user={user}
+                onClose={() => setDropdownOpen(false)}
+                onEditProfile={handleEditProfile}
+                onLogout={handleLogout}
+              />
+            )}
+          </div>
         </div>
       </div>
-    </div>
+
+      <EditProfileModal
+        isOpen={editModalOpen}
+        user={user}
+        isSaving={isSaving}
+        onSave={handleSaveProfile}
+        onClose={() => setEditModalOpen(false)}
+      />
+    </>
   );
 }
 
