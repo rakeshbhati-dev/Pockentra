@@ -29,11 +29,11 @@ const login=async (req,res) => {
         const {email,password}=req.body;
         const existedUser=await User.findOne({email:email}).select('+password');
         if(!existedUser){
-            return res.status(404).json({message:"Invalid Email ID"});
+            return res.status(401).json({message:"Invalid Credentials"});
         }
         const isPasswordValid=await bcrypt.compare(password,existedUser.password)
         if(!isPasswordValid){
-            return res.status(401).json({message:"Invalid Password"});
+            return res.status(401).json({message:"Invalid Credentials"});
         }
         const secretKey=process.env.JWT_SECRET;
         const token=jwt.sign({userId:existedUser._id},secretKey)
