@@ -148,6 +148,7 @@ ${errors.join('\n')}`
                         placeholder="john@example.com"
                         onChange={handleChange}
                         errorMessage={errors.email}
+                        type='email'
                     />
 
                     <Input
@@ -157,6 +158,7 @@ ${errors.join('\n')}`
                         placeholder="Min. 8 characters"
                         onChange={handleChange}
                         errorMessage={errors.password}
+                        type='password'
                     />
 
                     <button
