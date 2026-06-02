@@ -122,7 +122,7 @@ function TransactionForm() {
 
     return (
         <>
-            <Header showButton={false} firstName={user.firstName} />
+            <Header showButton={false} />
 
             <div className="px-4 py-8 md:px-8">
                 {/* Page heading */}

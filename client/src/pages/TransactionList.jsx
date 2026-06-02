@@ -153,7 +153,7 @@ function TransactionList() {
 
   return (
     <>
-      <Header firstName={user?.firstName} />
+      <Header />
       <Section>
         {/*
           Layout wrapper: when drawer is open the table shrinks left,

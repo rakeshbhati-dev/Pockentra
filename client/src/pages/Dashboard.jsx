@@ -53,7 +53,7 @@ function Dashboard() {
     }
     return (
         <>
-            <Header firstName={user?.firstName} />
+            <Header  />
             <Section>
                 <h3 className="text-gray-400 mb-2">This Month</h3>
                 <div className="flex gap-3">
