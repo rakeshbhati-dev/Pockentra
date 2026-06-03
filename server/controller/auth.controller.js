@@ -13,7 +13,7 @@ const register = async (req, res) => {
         const userData = {
             firstName:firstName,
             lastName:lastName,
-            email: email,
+            email: email.toLowerCase(),
             password: hashPassword
         };
         const response = await User.create(userData);
@@ -27,7 +27,7 @@ const register = async (req, res) => {
 const login=async (req,res) => {
     try {
         const {email,password}=req.body;
-        const existedUser=await User.findOne({email:email}).select('+password');
+        const existedUser=await User.findOne({email:email.toLowerCase()}).select('+password');
         if(!existedUser){
             return res.status(401).json({message:"Invalid Credentials"});
         }
