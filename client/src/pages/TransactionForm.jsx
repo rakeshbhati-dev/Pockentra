@@ -124,7 +124,7 @@ function TransactionForm() {
         <>
             <Header showButton={false} />
 
-            <div className="px-4 py-8 md:px-8">
+            <div className="px-2 py-4 md:px-8">
                 {/* Page heading */}
                 <h1 className="text-white font-semibold text-xl mb-6">
                     {isEditMode ? "Update Transaction" : "Add Transaction"}
@@ -247,7 +247,19 @@ function TransactionForm() {
                         </div>
 
                         {/* Submit */}
-                        <div className="flex justify-end pt-1">
+                        <div className="flex justify-end pt-1 gap-3">
+                            <button
+                            className="px-8 py-2.5 rounded-lg text-sm font-semibold text-white hover:opacity-90 active:scale-[0.98] transition-all duration-150 disabled:opacity-50 disabled:cursor-not-allowed"
+                            disabled={isSubmitting}
+                            onClick={()=>navigate(-1)}
+                            style={{
+              backgroundColor: "rgba(255,255,255,0.05)",
+              border: "1px solid rgba(255,255,255,0.1)",
+              color: "rgba(255,255,255,0.5)",
+            }}
+                            >
+                                Cancel
+                            </button>
                             <button
                                 onClick={handleSubmit}
                                 disabled={isSubmitting}
