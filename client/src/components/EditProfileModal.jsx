@@ -115,14 +115,6 @@ export default function EditProfileModal({ isOpen, user, isSaving = false, onSav
               border: "1px solid rgba(255,255,255,0.1)",
               color: "rgba(255,255,255,0.5)",
             }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.backgroundColor = "rgba(255,255,255,0.09)";
-              e.currentTarget.style.color = "rgba(255,255,255,0.8)";
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.backgroundColor = "rgba(255,255,255,0.05)";
-              e.currentTarget.style.color = "rgba(255,255,255,0.5)";
-            }}
           >
             Cancel
           </button>
