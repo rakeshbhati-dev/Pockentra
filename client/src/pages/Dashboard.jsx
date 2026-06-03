@@ -66,10 +66,17 @@ function Dashboard() {
             </Section>
 
             <Section>
-                <div className="flex justify-between">
-                    <h3 className="text-gray-400 mb-2">Recent Transactions</h3>
-                    <Link to='/transaction' className="text-primary mb-2 border px-4 py-1 border-solid border-primary hover:bg-primary hover:text-black cursor-pointer flex rounded-md items-center">View All
-                        <ChevronRight />
+                <div className="flex justify-between items-center gap-2 sm:gap-4 mb-4">
+                    <h3 className="text-sm sm:text-base md:text-lg text-gray-400">
+                        Recent Transactions
+                    </h3>
+
+                    <Link
+                        to="/transaction"
+                        className="text-xs sm:text-sm md:text-base text-primary border border-primary px-2 py-1 sm:px-4 sm:py-1.5 rounded-md flex items-center gap-1 hover:bg-primary hover:text-black"
+                    >
+                        <span>View All</span>
+                        <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5" />
                     </Link>
                 </div>
 
