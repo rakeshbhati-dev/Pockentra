@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { LogOut, Pencil } from "lucide-react";
+import { LogOut, Pencil, Plus } from "lucide-react";
 import logo from "../assets/logo.png";
 import { useUser } from "../contexts/UserContextProvider";
 import EditProfileModal from "./EditProfileModal";
@@ -27,7 +27,6 @@ function ProfileDropdown({ user, onClose, onEditProfile, onLogout }) {
       }}
       role="menu"
     >
-      {/* User info */}
       <div
         className="flex items-center gap-3 px-4 py-4"
         style={{ borderBottom: "1px solid rgba(255,255,255,0.07)" }}
@@ -41,7 +40,6 @@ function ProfileDropdown({ user, onClose, onEditProfile, onLogout }) {
         </div>
       </div>
 
-      {/* Actions */}
       <div className="p-2">
         <button
           role="menuitem"
@@ -69,13 +67,12 @@ function ProfileDropdown({ user, onClose, onEditProfile, onLogout }) {
 
 function Header({ showButton = true }) {
   const navigate = useNavigate();
-  const { user,token,setUser,setToken } = useUser();
+  const { user, token, setUser, setToken } = useUser();
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [editModalOpen, setEditModalOpen] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const profileRef = useRef(null);
 
-  // Close when clicking outside the entire profile area (avatar + dropdown)
   useEffect(() => {
     const handler = (e) => {
       if (profileRef.current && !profileRef.current.contains(e.target)) {
@@ -86,7 +83,6 @@ function Header({ showButton = true }) {
     return () => document.removeEventListener("mousedown", handler);
   }, []);
 
-  // Close on Escape
   useEffect(() => {
     const handler = (e) => { if (e.key === "Escape") setDropdownOpen(false); };
     window.addEventListener("keydown", handler);
@@ -98,8 +94,8 @@ function Header({ showButton = true }) {
   const handleSaveProfile = async (data) => {
     try {
       setIsSaving(true);
-     const response= await updateProfile(token, data); 
-      setUser(response.data)
+      const response = await updateProfile(token, data);
+      setUser(response.data);
       setEditModalOpen(false);
     } catch (error) {
       console.log(error);
@@ -109,23 +105,25 @@ function Header({ showButton = true }) {
   };
 
   const handleLogout = () => {
-    localStorage.removeItem('token');
+    localStorage.removeItem("token");
     setToken(null);
     setUser(null);
-    navigate('/login')
+    navigate("/login");
   };
 
   return (
     <>
+      {/* Header bar */}
       <div className="flex px-4 py-3 justify-between items-center bg-[#1f242d]">
         <Link to="/">
-          <img src={logo} alt="Logo" className="w-48" />
+          <img src={logo} alt="Logo" className="w-36 sm:w-48" />
         </Link>
 
         <div className="flex gap-4 items-center">
+          {/* Add Transaction button — desktop only */}
           {showButton && (
             <button
-              className="bg-primary p-2 rounded-md font-semibold cursor-pointer text-white"
+              className="hidden sm:block bg-primary px-3 py-2 rounded-md font-semibold cursor-pointer text-white text-sm"
               onClick={() => navigate("/transaction/add")}
             >
               + Add Transaction
@@ -141,7 +139,7 @@ function Header({ showButton = true }) {
                 dropdownOpen ? "ring-2 ring-primary/50" : ""
               }`}
             >
-              {user?.firstName?.[0].toUpperCase()}
+              {user?.firstName?.[0]?.toUpperCase()}
             </button>
 
             {dropdownOpen && (
@@ -155,6 +153,17 @@ function Header({ showButton = true }) {
           </div>
         </div>
       </div>
+
+      {/* FAB — mobile only */}
+      {showButton && (
+        <button
+          onClick={() => navigate("/transaction/add")}
+          aria-label="Add Transaction"
+          className="sm:hidden fixed bottom-6 right-6 z-50 w-14 h-14 rounded-full bg-primary flex items-center justify-center shadow-lg active:scale-95 transition-transform duration-150"
+        >
+          <Plus size={26} className="text-white" />
+        </button>
+      )}
 
       <EditProfileModal
         isOpen={editModalOpen}
