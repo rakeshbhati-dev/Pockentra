@@ -13,8 +13,8 @@ function Login() {
         password: ''
     })
     const [errors, setErrors] = useState({})
-    const navigate=useNavigate()
-    const {setToken}=useUser()
+    const navigate = useNavigate()
+    const { setToken } = useUser()
 
     const handleChange = (e) => {
         setForm({ ...form, [e.target.name]: e.target.value })
@@ -42,30 +42,28 @@ function Login() {
         } else {
             setErrors({})
             try {
-                const response=await login(form)
-                if(response){
-                    toast.success(response.message);
-                    localStorage.setItem('token',response.token);
+                const response = await login(form)
+                if (response) {
+                    toast.success(response.message)
+                    localStorage.setItem('token', response.token)
                     setToken(response.token)
                     navigate('/')
                 }
             } catch (error) {
-                if(error.status===401){
-                    toast.error('Invalid credentials');
+                if (error.status === 401) {
+                    toast.error('Invalid credentials')
+                } else {
+                    toast.error('Something went wrong')
+                    console.log(error)
                 }
-                else{
-                    toast.error('Something went wrong');
-                    console.log(error);
-                }
-                
             }
         }
     }
 
     return (
-        <div className="flex h-screen">
-            {/* Left Panel */}
-            <div className="flex flex-col w-[50%] bg-[#0c0e13] justify-center items-center overflow-hidden">
+        <div className="flex flex-col lg:flex-row min-h-screen">
+            {/* Left Panel — hidden on mobile */}
+            <div className="hidden lg:flex flex-col w-[50%] bg-[#0c0e13] justify-center items-center overflow-hidden">
                 <div className="z-10 mb-6">
                     <img src={logo} alt="Logo" className="w-xs" />
                     <h3 className="text-primary text-center">
@@ -83,49 +81,61 @@ function Login() {
             </div>
 
             {/* Right Panel */}
-            <div className="flex flex-col justify-center p-12 flex-1 bg-[#11141d]">
-                <h2 className="text-2xl font-semibold text-white mb-1">Welcome Back</h2>
-                <p className="text-gray-500 text-sm mb-8">Sign in to your account to continue.</p>
+            <div className="flex flex-col justify-center px-6 py-12 sm:px-12 flex-1 bg-[#11141d] min-h-screen lg:min-h-0">
 
-                <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-                    <Input
-                        label="Email"
-                        name="email"
-                        value={form.email}
-                        placeholder="john@example.com"
-                        onChange={handleChange}
-                        errorMessage={errors.email}
-                    />
+                {/* Logo shown only on mobile */}
+                <div className="flex flex-col items-center mb-8 lg:hidden">
+                    <img src={logo} alt="Logo" className="w-40 sm:w-48 mb-2" />
+                    <p className="text-primary text-sm text-center">
+                        Take control of your spending.
+                    </p>
+                </div>
 
-                    <Input
-                        label="Password"
-                        name="password"
-                        type="password"
-                        value={form.password}
-                        placeholder="Enter your password"
-                        onChange={handleChange}
-                        errorMessage={errors.password}
-                    />
+                <div className="w-full max-w-md mx-auto lg:mx-0">
+                    <h2 className="text-2xl font-semibold text-white mb-1">Welcome Back</h2>
+                    <p className="text-gray-500 text-sm mb-8">Sign in to your account to continue.</p>
 
-                    <div className="flex justify-end -mt-2">
-                        <a href="/forgot-password" className="text-primary text-xs hover:underline">
-                            Forgot password?
-                        </a>
-                    </div>
+                    <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+                        <Input
+                            label="Email"
+                            name="email"
+                            value={form.email}
+                            placeholder="john@example.com"
+                            onChange={handleChange}
+                            errorMessage={errors.email}
+                        />
 
-                    <button
-                        type="submit"
-                        className="w-full py-3 mt-2 bg-primary text-black font-semibold rounded-md hover:opacity-90 transition-opacity"
-                    >
-                        Sign In
-                    </button>
-                </form>
+                        <Input
+                            label="Password"
+                            name="password"
+                            type="password"
+                            value={form.password}
+                            placeholder="Enter your password"
+                            onChange={handleChange}
+                            errorMessage={errors.password}
+                        />
 
-                <p className="text-center text-gray-500 text-xs mt-6">
-                    Don't have an account?{' '}
-                    <Link to='/register' className="text-primary hover:underline">
-                    Create one</Link>
-                </p>
+                        <div className="flex justify-end -mt-2">
+                            <a href="/forgot-password" className="text-primary text-xs hover:underline">
+                                Forgot password?
+                            </a>
+                        </div>
+
+                        <button
+                            type="submit"
+                            className="w-full py-3 mt-2 bg-primary text-black font-semibold rounded-md hover:opacity-90 transition-opacity cursor-pointer"
+                        >
+                            Sign In
+                        </button>
+                    </form>
+
+                    <p className="text-center text-gray-500 text-xs mt-6">
+                        Don't have an account?{' '}
+                        <Link to="/register" className="text-primary hover:underline">
+                            Create one
+                        </Link>
+                    </p>
+                </div>
             </div>
         </div>
     )

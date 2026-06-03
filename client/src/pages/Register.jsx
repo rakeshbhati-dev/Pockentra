@@ -23,12 +23,10 @@ function Register() {
     const validate = () => {
         const newErrors = {}
 
-        // First Name
         if (!form.firstName.trim()) {
             newErrors.firstName = 'First name is required'
         }
 
-        // Email
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
         if (!form.email.trim()) {
@@ -37,7 +35,6 @@ function Register() {
             newErrors.email = 'Enter a valid email address'
         }
 
-        // Password
         const password = form.password
 
         if (!password) {
@@ -45,25 +42,13 @@ function Register() {
         } else {
             const errors = []
 
-            if (!/[A-Z]/.test(password)) {
-                errors.push('One Uppercase letter')
-            }
-
-            if (!/[a-z]/.test(password)) {
-                errors.push('One lowercase letter')
-            }
-
-            if (!/\d/.test(password)) {
-                errors.push('One Number')
-            }
-
-            if (!/[@$!%*?&]/.test(password)) {
-                errors.push('One special symbol')
-            }
+            if (!/[A-Z]/.test(password)) errors.push('One Uppercase letter')
+            if (!/[a-z]/.test(password)) errors.push('One lowercase letter')
+            if (!/\d/.test(password)) errors.push('One Number')
+            if (!/[@$!%*?&]/.test(password)) errors.push('One special symbol')
 
             if (errors.length > 0) {
-                newErrors.password = `Password should contain:
-${errors.join('\n')}`
+                newErrors.password = `Password should contain:\n${errors.join('\n')}`
             } else if (password.length < 8) {
                 newErrors.password = 'Password must contain 8 characters'
             }
@@ -78,9 +63,9 @@ ${errors.join('\n')}`
         if (Object.keys(newErrors).length > 0) {
             setErrors(newErrors)
         } else {
-            setErrors({});
+            setErrors({})
             try {
-                const response = await register(form);
+                const response = await register(form)
                 if (response.data) {
                     toast.success(response.message)
                     navigation('/login')
@@ -88,20 +73,18 @@ ${errors.join('\n')}`
             } catch (error) {
                 if (error.status === 409) {
                     toast.error('Email already registered')
-                }
-                else {
+                } else {
                     toast.error('Something went wrong')
-                    console.log(error);
+                    console.log(error)
                 }
             }
-
         }
     }
 
     return (
-        <div className="flex h-screen">
-            {/* Left Panel */}
-            <div className="flex flex-col w-[50%] bg-[#0c0e13] justify-center items-center overflow-hidden">
+        <div className="flex flex-col lg:flex-row min-h-screen">
+            {/* Left Panel — hidden on small screens, visible from lg up */}
+            <div className="hidden lg:flex flex-col w-[50%] bg-[#0c0e13] justify-center items-center overflow-hidden">
                 <div className="z-10 mb-6">
                     <img src={logo} alt="Logo" className="w-xs" />
                     <h3 className="text-primary text-center">
@@ -119,64 +102,76 @@ ${errors.join('\n')}`
             </div>
 
             {/* Right Panel */}
-            <div className="flex flex-col justify-center p-12 flex-1 bg-[#11141d]">
-                <h2 className="text-2xl font-semibold text-white mb-1">Create Account</h2>
-                <p className="text-gray-500 text-sm mb-8">Start managing your finances today.</p>
+            <div className="flex flex-col justify-center px-6 py-12 sm:px-12 flex-1 bg-[#11141d] min-h-screen lg:min-h-0">
 
-                <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-                    {/* Name Row */}
-                    <div className="flex gap-4">
+                {/* Logo shown only on mobile (when left panel is hidden) */}
+                <div className="flex flex-col items-center mb-8 lg:hidden">
+                    <img src={logo} alt="Logo" className="w-40 sm:w-48 mb-2" />
+                    <p className="text-primary text-sm text-center">
+                        Take control of your spending.
+                    </p>
+                </div>
+
+                <div className="w-full max-w-md mx-auto lg:mx-0">
+                    <h2 className="text-2xl font-semibold text-white mb-1">Create Account</h2>
+                    <p className="text-gray-500 text-sm mb-8">Start managing your finances today.</p>
+
+                    <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+                        {/* Name Row — stacks on very small screens */}
+                        <div className="flex flex-col sm:flex-row gap-4">
+                            <Input
+                                label="First Name"
+                                name="firstName"
+                                value={form.firstName}
+                                placeholder="John"
+                                onChange={handleChange}
+                                errorMessage={errors.firstName}
+                            />
+                            <Input
+                                label="Last Name"
+                                name="lastName"
+                                value={form.lastName}
+                                placeholder="Doe"
+                                onChange={handleChange}
+                                errorMessage={errors.lastName}
+                            />
+                        </div>
+
                         <Input
-                            label="First Name"
-                            name="firstName"
-                            value={form.firstName}
-                            placeholder="John"
+                            label="Email"
+                            name="email"
+                            value={form.email}
+                            placeholder="john@example.com"
                             onChange={handleChange}
-                            errorMessage={errors.firstName}
+                            errorMessage={errors.email}
+                            type="email"
                         />
+
                         <Input
-                            label="Last Name"
-                            name="lastName"
-                            value={form.lastName}
-                            placeholder="Doe"
+                            label="Password"
+                            name="password"
+                            value={form.password}
+                            placeholder="Min. 8 characters"
                             onChange={handleChange}
-                            errorMessage={errors.lastName}
+                            errorMessage={errors.password}
+                            type="password"
                         />
-                    </div>
 
-                    <Input
-                        label="Email"
-                        name="email"
-                        value={form.email}
-                        placeholder="john@example.com"
-                        onChange={handleChange}
-                        errorMessage={errors.email}
-                        type='email'
-                    />
+                        <button
+                            type="submit"
+                            className="py-3 mt-2 bg-primary text-black font-semibold rounded-md hover:opacity-90 transition-opacity cursor-pointer"
+                        >
+                            Create Account
+                        </button>
+                    </form>
 
-                    <Input
-                        label="Password"
-                        name="password"
-                        value={form.password}
-                        placeholder="Min. 8 characters"
-                        onChange={handleChange}
-                        errorMessage={errors.password}
-                        type='password'
-                    />
-
-                    <button
-                        type="submit"
-                        className="py-3 mt-2 bg-primary text-black font-semibold rounded-md hover:opacity-90 transition-opacity cursor-pointer"
-                    >
-                        Create Account
-                    </button>
-                </form>
-
-                <p className="text-center text-gray-500 text-xs mt-6">
-                    Already have an account?{' '}
-                    <Link to='/login' className="text-primary hover:underline">
-                        Sign in</Link>
-                </p>
+                    <p className="text-center text-gray-500 text-xs mt-6">
+                        Already have an account?{' '}
+                        <Link to="/login" className="text-primary hover:underline">
+                            Sign in
+                        </Link>
+                    </p>
+                </div>
             </div>
         </div>
     )
