@@ -154,12 +154,11 @@ function TransactionList() {
   return (
     <>
       <Header />
-      <Section>
         {/*
           Layout wrapper: when drawer is open the table shrinks left,
           the drawer slides in from the right — both live in the same flex row.
         */}
-        <div className="flex gap-4 transition-all duration-300 relative">
+        <div className="flex  transition-all duration-300 relative">
           {/* Table — shrinks when drawer is open */}
           <div
             className="transition-all duration-300 min-w-0"
@@ -229,7 +228,6 @@ function TransactionList() {
             </div>
           </div>
         </div>
-      </Section>
 
       <DeleteTransactionModal
         transaction={txToDelete}
