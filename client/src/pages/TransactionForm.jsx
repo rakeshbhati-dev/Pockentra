@@ -11,7 +11,7 @@ const labelClass = "block text-primary text-xs uppercase tracking-wide mb-1";
 
 const selectWrapClass = "flex-1";
 const selectClass =
-    "w-full appearance-none bg-slate-700 text-white text-sm rounded-md px-3 py-2 pr-8 focus:outline-none focus:ring-1 focus:ring-primary cursor-pointer placeholder-gray-500";
+    "w-full appearance-none bg-slate-800 text-white text-sm rounded-md px-3 py-2 pr-8 focus:outline-none focus:ring-1 focus:ring-primary cursor-pointer placeholder-gray-500";
 
 function TransactionForm() {
     const { user, token, loading } = useUser();
@@ -242,7 +242,7 @@ function TransactionForm() {
                                 onChange={handleChange}
                                 placeholder="Add a note..."
                                 rows={3}
-                                className="w-full bg-slate-700 text-white text-sm rounded-md px-3 py-2 focus:outline-none focus:ring-1 focus:ring-primary placeholder-gray-500 resize-none"
+                                className="w-full bg-slate-800 text-white text-sm rounded-md px-3 py-2 focus:outline-none focus:ring-1 focus:ring-primary placeholder-gray-500 resize-none"
                             />
                         </div>
 
