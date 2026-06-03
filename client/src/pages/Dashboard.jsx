@@ -6,44 +6,44 @@ import { useUser } from "../contexts/UserContextProvider"
 import { useEffect, useState } from "react";
 import { getExpenseStats, getStats } from "../services/dashboard.service";
 import ExpenseChart from "../components/ExpenseChart";
-import TransactionTable  from "../components/TransactionTable";
+import TransactionTable from "../components/TransactionTable";
 import { Link } from "react-router-dom";
 
 function Dashboard() {
-    const { user, loading,token } = useUser();
-    const [monthStats,setMonthStats]=useState({
-        totalIncome:0,
-        totalExpense:0,
-        balance:0,
-        recentTransaction:[]
+    const { user, loading, token } = useUser();
+    const [monthStats, setMonthStats] = useState({
+        totalIncome: 0,
+        totalExpense: 0,
+        balance: 0,
+        recentTransaction: []
     })
 
-    const [expenseBreakdown,setExpenseBreakdown]=useState([]);
+    const [expenseBreakdown, setExpenseBreakdown] = useState([]);
 
-    const getMonthStats=async () => {
+    const getMonthStats = async () => {
         try {
-           const response= await getStats(token);
-           setMonthStats(response.data)
+            const response = await getStats(token);
+            setMonthStats(response.data)
         } catch (error) {
             console.log(error)
         }
     }
 
-    const getChartStats=async () => {
+    const getChartStats = async () => {
         try {
-            const response=await getExpenseStats(token)
+            const response = await getExpenseStats(token)
             setExpenseBreakdown(response.data.breakdown)
         } catch (error) {
             console.log(error)
         }
     }
 
-    useEffect(()=>{
-        if(token){
+    useEffect(() => {
+        if (token) {
             getMonthStats()
             getChartStats()
         }
-    },[user])
+    }, [user])
     if (loading) {
         return (
             <h1>Loading...</h1>
@@ -51,13 +51,13 @@ function Dashboard() {
     }
     return (
         <>
-            <Header  />
+            <Header />
             <Section>
                 <h3 className="text-gray-400 mb-2">This Month</h3>
-                <div className="flex gap-3">
-                    <Card cardStyle='w-1/3 shadow-green-500/20' title='Income' color="text-green-500" amount={monthStats.totalIncome} icon={TrendingUp} iconBg="bg-green-500/20"></Card>
-                    <Card cardStyle='w-1/3 shadow-red-500/20' title='Expense' color="text-red-500" amount={monthStats.totalExpense} icon={TrendingDown} iconBg="bg-red-500/20"></Card>
-                    <Card cardStyle='w-1/3 shadow-primary/20' title='Balance' color="text-primary" amount={monthStats.balance} icon={Wallet} iconBg="bg-primary/20"></Card>
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                    <Card cardStyle="shadow-green-500/20" title="Income" color="text-green-500" amount={monthStats.totalIncome} icon={TrendingUp} iconBg="bg-green-500/20" />
+                    <Card cardStyle="shadow-red-500/20" title="Expense" color="text-red-500" amount={monthStats.totalExpense} icon={TrendingDown} iconBg="bg-red-500/20" />
+                    <Card cardStyle="shadow-primary/20" title="Balance" color="text-primary" amount={monthStats.balance} icon={Wallet} iconBg="bg-primary/20" />
                 </div>
             </Section>
 
@@ -67,15 +67,15 @@ function Dashboard() {
 
             <Section>
                 <div className="flex justify-between">
-                <h3 className="text-gray-400 mb-2">Recent Transactions</h3>
-                <Link to='/transaction' className="text-primary mb-2 border px-4 py-1 border-solid border-primary hover:bg-primary hover:text-black cursor-pointer flex rounded-md items-center">View All
-                    <ChevronRight />
-                </Link>
+                    <h3 className="text-gray-400 mb-2">Recent Transactions</h3>
+                    <Link to='/transaction' className="text-primary mb-2 border px-4 py-1 border-solid border-primary hover:bg-primary hover:text-black cursor-pointer flex rounded-md items-center">View All
+                        <ChevronRight />
+                    </Link>
                 </div>
 
                 <TransactionTable
-  transactions={monthStats?.recentTransactions ?? []}
-/>
+                    transactions={monthStats?.recentTransactions ?? []}
+                />
             </Section>
         </>
     )
