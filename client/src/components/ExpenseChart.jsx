@@ -1,3 +1,4 @@
+import { ReceiptText } from "lucide-react"
 import {
   PieChart,
   Pie,
@@ -59,7 +60,9 @@ function ExpenseChart({ breakdown = [] }) {
         <div className="flex-1 flex items-center justify-center">
           <div className="text-center">
             <div className="w-24 h-24 rounded-full border-8 border-slate-800 border-dashed mx-auto mb-4 flex items-center justify-center">
-              <span className="text-3xl">💸</span>
+              <span className="text-3xl text-slate-800">
+                <ReceiptText />
+              </span>
             </div>
 
             <h3 className="text-slate-200 text-lg font-medium mb-1">
