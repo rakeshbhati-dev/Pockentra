@@ -2,9 +2,11 @@ import { useState } from "react";
 import {
   Film, ShoppingCart, Coffee, Home, Car, Zap, Heart,
   Music, Book, Briefcase, Globe, Gift, CreditCard,
-  ArrowUpDown, ArrowUp, ArrowDown, Filter, X,
-  ChevronDown, ChevronUp, SlidersHorizontal,
+  ArrowUpDown, ArrowUp, ArrowDown,
+  X, ChevronDown, ChevronUp, SlidersHorizontal,
 } from "lucide-react";
+import TransactionCard from "./TransactionCard";
+import { useNavigate } from "react-router-dom";
 
 const ICON_MAP = {
   Film, ShoppingCart, Coffee, Home, Car, Zap, Heart,
@@ -15,6 +17,8 @@ function CategoryIcon({ iconName, color, size = 14 }) {
   const Icon = ICON_MAP[iconName] || CreditCard;
   return <Icon size={size} color={color} />;
 }
+
+
 
 function formatDate(iso) {
   return new Intl.DateTimeFormat("en-IN", {
@@ -69,22 +73,7 @@ function CategoryPill({ category, selected, onToggle }) {
   );
 }
 
-/**
- * TransactionTable
- *
- * Props:
- *   transactions      – array from backend
- *   showControls      – bool; shows sort + filter UI
- *   onSortChange      – (sort: { field, dir } | null) => void
- *   onFilterChange    – (categoryIds: string[]) => void
- *   isLoading         – bool
- *   emptyMessage      – string
- *   categories        – array
- *   headerSlot        – ReactNode
- *   selectedTxId      – string | null  (controlled from parent)
- *   onRowClick        – (tx) => void   (called when a row is clicked)
- */
-export default function TransactionTable({
+export default function ResponsiveTable({
   transactions = [],
   showControls = false,
   onSortChange,
@@ -99,6 +88,17 @@ export default function TransactionTable({
   const [sort, setSort] = useState(null);
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [filterOpen, setFilterOpen] = useState(false);
+  const navigate=useNavigate();
+
+  const isMobile = window.innerWidth < 640; // or use a useMediaQuery hook
+
+const handleRowClick = (tx) => {
+  if (isMobile) {
+    navigate(`/transaction/${tx._id}`);
+  } else {
+    onRowClick?.(tx); // opens drawer on desktop
+  }
+};
 
   const handleSort = (newSort) => {
     setSort(newSort);
@@ -123,6 +123,7 @@ export default function TransactionTable({
       className="rounded-2xl overflow-hidden"
       style={{ backgroundColor: "#11141d", border: "1px solid rgba(255,255,255,0.07)" }}
     >
+      {/* Header slot */}
       {headerSlot && (
         <div className="flex items-center justify-between px-5 pt-5 pb-4 border-b border-white/5">
           <h2 className="text-white/80 font-semibold text-sm tracking-wide">Transactions</h2>
@@ -130,8 +131,9 @@ export default function TransactionTable({
         </div>
       )}
 
+      {/* Sort + filter controls */}
       {showControls && (
-        <div className="px-5 pt-5 pb-3 space-y-3">
+        <div className="px-4 sm:px-5 pt-4 sm:pt-5 pb-3 space-y-3">
           <div className="flex items-center justify-between gap-3 flex-wrap">
             <div className="flex items-center gap-2">
               <span className="text-white/30 text-xs tracking-widest uppercase font-semibold">Sort</span>
@@ -197,11 +199,12 @@ export default function TransactionTable({
             </div>
           )}
 
-          <div className="border-t border-white/5 -mx-5" />
+          <div className="border-t border-white/5 -mx-4 sm:-mx-5" />
         </div>
       )}
 
-      <div className="overflow-x-auto">
+      {/* ── Desktop table (sm+) ── */}
+      <div className="hidden sm:block overflow-x-auto">
         <table className="w-full text-sm">
           <thead>
             <tr style={{ borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
@@ -250,10 +253,8 @@ export default function TransactionTable({
                 return (
                   <tr
                     key={tx._id}
-                    onClick={() => onRowClick?.(tx)}
-                    className={`group transition-colors duration-150 cursor-pointer ${
-                      isSelected ? "bg-indigo-500/10" : ""
-                    }`}
+                    onClick={() => handleRowClick(tx)}
+                    className={`group transition-colors duration-150 cursor-pointer ${isSelected ? "bg-indigo-500/10" : ""}`}
                     style={{
                       borderBottom: isLast ? "none" : "1px solid rgba(255,255,255,0.04)",
                       borderLeft: isSelected ? "2px solid rgba(99,102,241,0.6)" : "2px solid transparent",
@@ -300,6 +301,35 @@ export default function TransactionTable({
             )}
           </tbody>
         </table>
+      </div>
+
+      {/* ── Mobile card list (< sm) ── */}
+      <div className="sm:hidden">
+        {isLoading ? (
+          Array.from({ length: 5 }).map((_, i) => (
+            <div key={i} className="px-4 py-3.5" style={{ borderBottom: "1px solid rgba(255,255,255,0.04)" }}>
+              <div className="flex justify-between mb-2">
+                <div className="h-4 w-2/5 rounded animate-pulse" style={{ backgroundColor: "rgba(255,255,255,0.06)" }} />
+                <div className="h-4 w-1/4 rounded animate-pulse" style={{ backgroundColor: "rgba(255,255,255,0.06)" }} />
+              </div>
+              <div className="flex justify-between">
+                <div className="h-3 w-1/4 rounded animate-pulse" style={{ backgroundColor: "rgba(255,255,255,0.06)" }} />
+                <div className="h-3 w-1/5 rounded animate-pulse" style={{ backgroundColor: "rgba(255,255,255,0.06)" }} />
+              </div>
+            </div>
+          ))
+        ) : transactions.length === 0 ? (
+          <p className="py-16 text-center text-white/30 text-sm">{emptyMessage}</p>
+        ) : (
+          transactions.map((tx) => (
+            <TransactionCard
+              key={tx._id}
+              tx={tx}
+              isSelected={selectedTxId === tx._id}
+              onRowClick={handleRowClick}
+            />
+          ))
+        )}
       </div>
     </div>
   );
