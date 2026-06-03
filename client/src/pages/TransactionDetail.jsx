@@ -1,9 +1,13 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
     ArrowLeft, Trash2, Pencil, X, AlertTriangle,
     CreditCard, Film, ShoppingCart, Coffee, Home, Car,
     Zap, Heart, Music, Book, Briefcase, Globe, Gift,
 } from "lucide-react";
+import { useNavigate, useParams } from "react-router-dom";
+import { deleteTransaction, getTransactionById } from "../services/transaction.service";
+import { useUser } from "../contexts/UserContextProvider";
+import DeleteTransactionModal from "../components/DeleteTransactionModal";
 
 const ICON_MAP = {
     Film, ShoppingCart, Coffee, Home, Car, Zap,
@@ -77,18 +81,30 @@ function DeleteModal({ title, onConfirm, onCancel, isDeleting }) {
 }
 
 function TransactionDetail() {
-    const transaction = MOCK_TRANSACTION;
+    const [transaction,setTransaction]=useState()
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [isDeleting, setIsDeleting] = useState(false);
+    const {id}=useParams()
+    const {user,token}=useUser()
+    const navigate=useNavigate()
 
-    const isIncome = transaction.type === "income";
-    const { color, icon, title: catTitle } = transaction.categoryId;
+
+    const fetchTransaction=async () => {
+        try {
+            const response=await getTransactionById(token,id)
+            setTransaction(response.data)
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    const isIncome = transaction?.type === "income";
 
     const handleDelete = async () => {
         try {
             setIsDeleting(true);
-            await new Promise((r) => setTimeout(r, 1200));
-            alert("Deleted!");
+            await deleteTransaction(token,id)
+            navigate('/transaction');
         } catch (err) {
             console.error(err);
         } finally {
@@ -96,6 +112,11 @@ function TransactionDetail() {
             setShowDeleteModal(false);
         }
     };
+
+    useEffect(()=>{
+        fetchTransaction()
+    },[])
+    
 
     return (
         <>
@@ -127,7 +148,7 @@ function TransactionDetail() {
                             {isIncome ? "Income" : "Expense"}
                         </p>
                         <p className={`text-4xl font-bold tabular-nums ${isIncome ? "text-emerald-400" : "text-red-400"}`}>
-                            {isIncome ? "+" : "−"}{fmt(transaction.amount)}
+                            {isIncome ? "+" : "−"}{fmt(transaction?.amount)}
                         </p>
                     </div>
 
@@ -136,13 +157,13 @@ function TransactionDetail() {
                         <span
                             className="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium"
                             style={{
-                                backgroundColor: `${color}18`,
-                                color,
-                                border: `1px solid ${color}30`,
+                                backgroundColor: `${transaction?.categoryId.color}18`,
+                                color:transaction?.categoryId.color,
+                                border: `1px solid ${transaction?.categoryId.color}30`,
                             }}
                         >
-                            <CategoryIcon iconName={icon} color={color} />
-                            {catTitle}
+                            <CategoryIcon iconName={transaction?.categoryId.color} color={transaction?.categoryId.color} />
+                            {transaction?.categoryId.title}
                         </span>
                     </div>
 
@@ -150,10 +171,10 @@ function TransactionDetail() {
 
                     {/* Detail rows */}
                     <div className="space-y-4">
-                        <DetailRow label="Title" value={transaction.title} />
-                        <DetailRow label="Date" value={fmtDate(transaction.date)} />
-                        <DetailRow label="Time" value={fmtTime(transaction.date)} />
-                        {transaction.note && <DetailRow label="Note" value={transaction.note} />}
+                        <DetailRow label="Title" value={transaction?.title} />
+                        <DetailRow label="Date" value={fmtDate(transaction?.date)} />
+                        <DetailRow label="Time" value={fmtTime(transaction?.date)} />
+                        {transaction?.note && <DetailRow label="Note" value={transaction?.note} />}
                         <DetailRow
                             label="Type"
                             value={
@@ -182,7 +203,7 @@ function TransactionDetail() {
                         Delete
                     </button>
                     <button
-                        onClick={() => alert("Navigate to edit")}
+                        onClick={() => navigate(`/transaction/update/${id}`)}
                         className="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl text-sm font-medium text-indigo-300 border border-indigo-500/30 bg-indigo-500/10 hover:bg-indigo-500/20 transition-all duration-150"
                     >
                         <Pencil size={14} />
@@ -192,12 +213,18 @@ function TransactionDetail() {
             </div>
 
             {showDeleteModal && (
-                <DeleteModal
-                    title={transaction.title}
-                    onConfirm={handleDelete}
-                    onCancel={() => setShowDeleteModal(false)}
-                    isDeleting={isDeleting}
-                />
+                // <DeleteModal
+                //     title={transaction.title}
+                //     onConfirm={handleDelete}
+                //     onCancel={() => setShowDeleteModal(false)}
+                //     isDeleting={isDeleting}
+                // />
+                <DeleteTransactionModal
+                        transaction={transaction}
+                        isDeleting={isDeleting}
+                        onConfirm={handleDelete}
+                        onClose={()=>setShowDeleteModal(false)}
+                      />
             )}
         </>
     );
