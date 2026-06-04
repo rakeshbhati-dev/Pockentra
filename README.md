@@ -40,9 +40,7 @@ Organize transactions with fully customizable categories — each with its own i
 
 ### 📈 Charts & Reports
 Pockentra visualizes your data through interactive charts:
-- **Bar charts** for monthly income vs. expense comparisons
 - **Pie/donut charts** for spending breakdown by category
-- **Trend lines** to track financial patterns over time
 
 ### 🔍 Search, Filter & Sort
 Quickly find any transaction using keyword search, or narrow results by category, date range, or transaction type. Sort by date or amount to surface what matters most.
