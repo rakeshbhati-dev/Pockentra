@@ -4,11 +4,12 @@ export function formatDate(iso) {
   }).format(new Date(iso));
 }
 
-export function formatAmount(amount, type) {
-  const formatted = new Intl.NumberFormat("en-IN", {
-    style: "currency", currency: "INR", maximumFractionDigits: 0,
+export const formatAmount=(amount)=>{
+   return new Intl.NumberFormat("en-IN", {
+    style: "currency",
+    currency: "INR",
+    maximumFractionDigits: 0,
   }).format(amount);
-  return { formatted, isIncome: type === "income" };
 }
 
 export function formatTime(iso) {

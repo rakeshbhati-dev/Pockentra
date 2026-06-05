@@ -26,8 +26,9 @@ function CategoryIcon({ iconName, color, size = 11 }) {
  *   onRowClick  – (tx) => void
  */
 export default function TransactionCard({ tx, isSelected = false, onRowClick }) {
-  const { formatted, isIncome } = formatAmount(tx.amount, tx.type);
-
+  // const { formatted, isIncome } = formatAmount(tx.amount, tx.type);
+  const formatted=formatAmount(tx.amount)
+  const isIncome=tx.type==='income'
   return (
     <div
       onClick={() => onRowClick?.(tx)}

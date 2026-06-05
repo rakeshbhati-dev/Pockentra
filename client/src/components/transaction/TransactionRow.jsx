@@ -2,7 +2,9 @@ import CategoryIcon from "./CategoryIcon";
 import { formatDate, formatAmount } from "../../utils/formatters";
 
 export default function TransactionRow({ tx, isSelected, isLast, onRowClick }) {
-  const { formatted, isIncome } = formatAmount(tx.amount, tx.type);
+  // const { formatted, isIncome } = formatAmount(tx.amount, tx.type);
+  const isIncome = tx?.type === "income";
+  const formatted=formatAmount(tx.amount)
 
   return (
     <tr
