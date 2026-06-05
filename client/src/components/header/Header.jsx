@@ -1,13 +1,13 @@
 import { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { LogOut, Pencil, Plus } from "lucide-react";
-import logo from "../assets/logo.png";
-import { useUser } from "../contexts/UserContextProvider";
-import EditProfileModal from "./EditProfileModal";
-import { updateProfile } from "../services/user.service";
-import ProfileDropdown from "./header/ProfileDropdown";
-import Button from "./Button";
-import FabButton from "./FabButton";
+import logo from "../../assets/logo.png";
+import { useUser } from "../../contexts/UserContextProvider";
+import EditProfileModal from "../EditProfileModal";
+import { updateProfile } from "../../services/user.service";
+import ProfileDropdown from "./ProfileDropdown";
+import Button from "../Button";
+import FabButton from "../FabButton";
 
 
 
