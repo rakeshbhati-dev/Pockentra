@@ -4,12 +4,12 @@ import { useUser } from "../contexts/UserContextProvider";
 import { getAllTransaction } from "../services/transaction.service";
 import Section from "../components/Section";
 import { getAllCategories } from "../services/category.service";
-import TransactionTable from "../components/TransactionTable";
-import TransactionDrawer from "../components/TransactionDrawer";
-import DeleteTransactionModal from "../components/DeleteTransactionModal";
+import TransactionTable from "../components/transaction/TransactionTable";
+import DeleteTransactionModal from "../components/transaction/DeleteTransactionModal";
 import { deleteTransaction } from "../services/transaction.service";
 import { ChevronDown } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import TransactionDrawer from "../components/transaction/TransactionDrawer";
 
 const MONTHS = [
   "January", "February", "March", "April", "May", "June",

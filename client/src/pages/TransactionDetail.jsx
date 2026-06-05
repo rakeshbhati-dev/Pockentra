@@ -7,7 +7,7 @@ import {
 import { useNavigate, useParams } from "react-router-dom";
 import { deleteTransaction, getTransactionById } from "../services/transaction.service";
 import { useUser } from "../contexts/UserContextProvider";
-import DeleteTransactionModal from "../components/DeleteTransactionModal";
+import DeleteTransactionModal from "../components/transaction/DeleteTransactionModal";
 
 const ICON_MAP = {
     Film, ShoppingCart, Coffee, Home, Car, Zap,

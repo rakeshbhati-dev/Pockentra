@@ -6,8 +6,9 @@ import { useUser } from "../contexts/UserContextProvider"
 import { useEffect, useState } from "react";
 import { getExpenseStats, getStats } from "../services/dashboard.service";
 import ExpenseChart from "../components/dashboard/ExpenseChart";
-import TransactionTable from "../components/TransactionTable";
+// import TransactionTable from "../components/TransactionTable";
 import { Link } from "react-router-dom";
+import TransactionTable from "../components/transaction/TransactionTable";
 
 function Dashboard() {
     const { user, loading, token } = useUser();

@@ -1,3 +1,5 @@
+import { ArrowDown, ArrowUp, ArrowUpDown } from "lucide-react";
+
 function SortButton({ label, field, currentSort, onSort }) {
   const active = currentSort?.field === field;
   const dir = active ? currentSort.dir : null;
