@@ -6,6 +6,8 @@ import toast from 'react-hot-toast'
 import { login } from '../services/auth.service'
 import { Link, useNavigate } from 'react-router-dom'
 import { useUser } from '../contexts/UserContextProvider'
+import AuthPanelLeft from '../components/AuthPanelLeft'
+import Button from '../components/Button'
 
 function Login() {
     const [form, setForm] = useState({
@@ -63,22 +65,7 @@ function Login() {
     return (
         <div className="flex flex-col lg:flex-row min-h-screen">
             {/* Left Panel — hidden on mobile */}
-            <div className="hidden lg:flex flex-col w-[50%] bg-[#0c0e13] justify-center items-center overflow-hidden">
-                <div className="z-10 mb-6">
-                    <img src={logo} alt="Logo" className="w-xs" />
-                    <h3 className="text-primary text-center">
-                        Take control of your spending.
-                    </h3>
-                </div>
-                <div className="relative w-full flex justify-center items-end">
-                    <img
-                        src={dashboardBackground}
-                        alt="Dashboard"
-                        className="w-[95%] object-contain relative z-10"
-                    />
-                    <div className="absolute bottom-0 left-0 w-full h-40 bg-gradient-to-t from-[#11141d] via-[#11141d]/80 to-transparent z-20 pointer-events-none" />
-                </div>
-            </div>
+            <AuthPanelLeft />
 
             {/* Right Panel */}
             <div className="flex flex-col justify-center px-6 py-12 sm:px-12 flex-1 bg-[#11141d] min-h-screen lg:min-h-0">
@@ -115,18 +102,17 @@ function Login() {
                             errorMessage={errors.password}
                         />
 
-                        <div className="flex justify-end -mt-2">
+                        {/* <div className="flex justify-end -mt-2">
                             <a href="/forgot-password" className="text-primary text-xs hover:underline">
                                 Forgot password?
                             </a>
-                        </div>
+                        </div> */}
 
-                        <button
-                            type="submit"
-                            className="w-full py-3 mt-2 bg-primary text-black font-semibold rounded-md hover:opacity-90 transition-opacity cursor-pointer"
-                        >
-                            Sign In
-                        </button>
+                        <Button
+                        type='submit'
+                        title='Sign In'
+                        buttonStyle='mt-2'
+                        />
                     </form>
 
                     <p className="text-center text-gray-500 text-xs mt-6">
