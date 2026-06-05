@@ -1,6 +1,6 @@
 import { ChevronRight, MoveRight, TrendingDown, TrendingUp, Wallet } from "lucide-react";
 import Card from "../components/dashboard/Card";
-import Header from "../components/Header";
+import Header from "../components/header/Header";
 import Section from "../components/Section";
 import { useUser } from "../contexts/UserContextProvider"
 import { useEffect, useState } from "react";

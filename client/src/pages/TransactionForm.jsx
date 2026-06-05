@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import Header from "../components/Header";
+import Header from "../components/header/Header";
 import { useUser } from "../contexts/UserContextProvider";
 import { getAllCategories } from "../services/category.service";
 import Input from "../components/Input";
