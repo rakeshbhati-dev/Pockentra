@@ -1,17 +1,7 @@
 import { useEffect, useRef } from "react";
 import { Trash2, X } from "lucide-react";
+import { formatAmount, formatDate } from "../../utils/formatters";
 
-function formatDate(iso) {
-  return new Intl.DateTimeFormat("en-IN", {
-    day: "2-digit", month: "short", year: "numeric",
-  }).format(new Date(iso));
-}
-
-function formatAmount(amount) {
-  return new Intl.NumberFormat("en-IN", {
-    style: "currency", currency: "INR", maximumFractionDigits: 0,
-  }).format(amount);
-}
 
 /**
  * DeleteTransactionModal

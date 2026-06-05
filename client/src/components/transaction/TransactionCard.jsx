@@ -3,6 +3,7 @@ import {
   Film, ShoppingCart, Coffee, Home, Car, Zap, Heart,
   Music, Book, Briefcase, Globe, Gift,
 } from "lucide-react";
+import { formatAmount, formatDate } from "../../utils/formatters";
 
 const ICON_MAP = {
   Film, ShoppingCart, Coffee, Home, Car, Zap, Heart,
@@ -14,18 +15,7 @@ function CategoryIcon({ iconName, color, size = 11 }) {
   return <Icon size={size} color={color} />;
 }
 
-function formatDate(iso) {
-  return new Intl.DateTimeFormat("en-IN", {
-    day: "2-digit", month: "short", year: "numeric",
-  }).format(new Date(iso));
-}
 
-function formatAmount(amount, type) {
-  const formatted = new Intl.NumberFormat("en-IN", {
-    style: "currency", currency: "INR", maximumFractionDigits: 0,
-  }).format(amount);
-  return { formatted, isIncome: type === "income" };
-}
 
 /**
  * TransactionCard

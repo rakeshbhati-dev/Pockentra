@@ -4,6 +4,7 @@ import {
   Film, ShoppingCart, Coffee, Home, Car, Zap,
   Heart, Music, Book, Briefcase, Globe, Gift,
 } from "lucide-react";
+import { formatAmount, formatDate, formatTime } from "../../utils/formatters";
 
 const ICON_MAP = {
   Film, ShoppingCart, Coffee, Home, Car, Zap,
@@ -15,33 +16,6 @@ function CategoryIcon({ iconName, color, size = 18 }) {
   return <Icon size={size} color={color} />;
 }
 
-function formatDate(iso) {
-  return new Intl.DateTimeFormat("en-IN", {
-    weekday: "long", day: "2-digit", month: "long", year: "numeric",
-  }).format(new Date(iso));
-}
-
-function formatTime(iso) {
-  return new Intl.DateTimeFormat("en-IN", {
-    hour: "2-digit", minute: "2-digit", hour12: true,
-  }).format(new Date(iso));
-}
-
-function formatAmount(amount, type) {
-  return new Intl.NumberFormat("en-IN", {
-    style: "currency", currency: "INR", maximumFractionDigits: 0,
-  }).format(amount);
-}
-
-/**
- * TransactionDrawer
- *
- * Props:
- *   transaction  – the selected transaction object (null = closed)
- *   onClose      – () => void
- *   onEdit       – (transaction) => void
- *   onDelete     – (transaction) => void
- */
 export default function TransactionDrawer({ transaction, onClose, onEdit, onDelete }) {
   const isOpen = !!transaction;
 
