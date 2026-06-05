@@ -5,7 +5,7 @@ import { useState } from 'react'
 import { register } from '../services/auth.service'
 import { Link, useNavigate } from 'react-router-dom'
 import toast from 'react-hot-toast'
-import AuthPanelLeft from '../components/AuthPanelLeft'
+import AuthPanelLeft from '../components/auth/AuthPanelLeft'
 import Button from '../components/Button'
 
 function Register() {

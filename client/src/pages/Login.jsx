@@ -6,8 +6,8 @@ import toast from 'react-hot-toast'
 import { login } from '../services/auth.service'
 import { Link, useNavigate } from 'react-router-dom'
 import { useUser } from '../contexts/UserContextProvider'
-import AuthPanelLeft from '../components/AuthPanelLeft'
 import Button from '../components/Button'
+import AuthPanelLeft from '../components/auth/AuthPanelLeft'
 
 function Login() {
     const [form, setForm] = useState({
