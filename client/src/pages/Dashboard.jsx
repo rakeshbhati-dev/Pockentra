@@ -1,11 +1,11 @@
 import { ChevronRight, MoveRight, TrendingDown, TrendingUp, Wallet } from "lucide-react";
-import Card from "../components/Card";
+import Card from "../components/dashboard/Card";
 import Header from "../components/Header";
 import Section from "../components/Section";
 import { useUser } from "../contexts/UserContextProvider"
 import { useEffect, useState } from "react";
 import { getExpenseStats, getStats } from "../services/dashboard.service";
-import ExpenseChart from "../components/ExpenseChart";
+import ExpenseChart from "../components/dashboard/ExpenseChart";
 import TransactionTable from "../components/TransactionTable";
 import { Link } from "react-router-dom";
 
