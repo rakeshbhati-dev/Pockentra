@@ -1,3 +1,6 @@
+import { LogOut, Pencil } from "lucide-react";
+import { useRef } from "react";
+
 function ProfileDropdown({ user, onClose, onEditProfile, onLogout }) {
   const ref = useRef(null);
 
